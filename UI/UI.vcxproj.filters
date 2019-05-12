@@ -30,12 +30,15 @@
     <ClInclude Include="CRootWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CMainWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CRootWnd.cpp">
+    <ClCompile Include="CMainWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

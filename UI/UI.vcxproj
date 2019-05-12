@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CMainWnd.h" />
     <ClInclude Include="CRootWnd.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -158,7 +159,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CRootWnd.cpp" />
+    <ClCompile Include="CMainWnd.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
