@@ -1,16 +1,25 @@
+/*
+For program's top main window with native windows style
+*/
+
 #pragma once
 #include "CRootWnd.h"
 
-using namespace Ashr::UI;
-
-class CMainWnd :
-	public CRootWnd<CMainWnd>
+namespace Ashr
 {
-public:
-	CMainWnd();
-	virtual ~CMainWnd();
+	namespace UI
+	{
+		class CMainWnd :
+			public CRootWnd<CMainWnd>
+		{
+		public:
+			CMainWnd();
+			virtual ~CMainWnd();
 
-public:
-	HRESULT Initialize(HWND hParentWnd = NULL);
-};
+		public:
+			HRESULT Initialize(HWND hParentWnd = NULL);
+		};
+	}
+}
+
 

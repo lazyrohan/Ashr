@@ -1,22 +1,14 @@
 #include "CMainWnd.h"
 
-
-
-CMainWnd::CMainWnd()
+Ashr::UI::CMainWnd::CMainWnd()
 {
 }
 
-
-CMainWnd::~CMainWnd()
+Ashr::UI::CMainWnd::~CMainWnd()
 {
 }
 
-HRESULT CMainWnd::Initialize(HWND hParentWnd)
+HRESULT Ashr::UI::CMainWnd::Initialize(HWND hParentWnd)
 {
-	HRESULT hr = S_OK;
-
-	hr = CreateWnd(L"Main");
-
-
-	return hr;
+	return E_NOTIMPL;
 }

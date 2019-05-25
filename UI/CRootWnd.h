@@ -24,6 +24,12 @@ namespace Ashr
 {
 	namespace UI
 	{
+		//Debug info
+#ifdef DEBUG
+		inline void DebugInfo() {}
+#else
+		inline void DebugInfo() {}
+#endif
 
 		//Safe release function. need?
 		template <class Interface>
@@ -95,7 +101,6 @@ IMAGE_DOS_HEADER __ImageBase;
 				// Check show window
 				if (hParentWnd == NULL)
 				{
-					//MessageBox(NULL, L"Not defined right window, will create default on.", L"Wrong Parameter", MB_YESNO);
 					hr = CreateWnd(L"Show");
 					if (FAILED(hr))
 						return hr;
@@ -103,20 +108,27 @@ IMAGE_DOS_HEADER __ImageBase;
 				else
 					mHwnd = hParentWnd;
 
-				//hr = CreateDevDependRes(mHwnd);
-
 				return hr;
+			};
+
+			//Main process to handle message
+			int Run()
+			{
+				MSG msg;
+
+				while (GetMessage(&msg, NULL, 0, 0))
+				{
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+
+				return (int)msg.wParam;
 			};
 
 			virtual LRESULT MsgHandle(UINT msg, WPARAM wpm, LPARAM lpm)
 			{
 				switch (msg)
 				{
-				case WM_CREATE:
-				{
-				}
-				break;
-
 				case WM_SIZE:
 				{
 					OnResize(lpm);
@@ -312,55 +324,6 @@ IMAGE_DOS_HEADER __ImageBase;
 				return hr;
 			};
 
-			//Main process to handle message
-			int Run()
-			{
-				MSG msg;
-
-				while (GetMessage(&msg, NULL, 0, 0))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-
-				return (int)msg.wParam;
-			};
-
-			//Message process
-			static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wpm, LPARAM lpm)
-			{
-				ChildWnd* pthis = NULL;
-				if (msg == WM_NCCREATE)
-				{
-					LPCREATESTRUCT pcs = (LPCREATESTRUCT)lpm;
-					pthis = (ChildWnd*)pcs->lpCreateParams;
-
-					::SetWindowLongPtrW(
-						hwnd,
-						GWLP_USERDATA,
-						PtrToUlong(pthis)
-					);
-					pthis->mHwnd = hwnd;
-				}
-				else
-				{
-					pthis = reinterpret_cast<ChildWnd*>(static_cast<LONG_PTR>(
-						::GetWindowLongPtrW(
-							hwnd,
-							GWLP_USERDATA
-						)));
-				}
-
-				if (pthis)
-				{
-					return pthis->MsgHandle(msg, wpm, lpm);
-				}
-				else
-				{
-					return ::DefWindowProc(hwnd, msg, wpm, lpm);
-				}
-			};
-
 		protected:
 			//Create default window if not exist 
 			virtual HRESULT CreateWnd(LPCWSTR WndName)
@@ -532,6 +495,42 @@ IMAGE_DOS_HEADER __ImageBase;
 
 				}
 				return mpos;
+			};
+
+		private:
+			//Message process
+			static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wpm, LPARAM lpm)
+			{
+				ChildWnd* pthis = NULL;
+				if (msg == WM_NCCREATE)
+				{
+					LPCREATESTRUCT pcs = (LPCREATESTRUCT)lpm;
+					pthis = (ChildWnd*)pcs->lpCreateParams;
+
+					::SetWindowLongPtrW(
+						hwnd,
+						GWLP_USERDATA,
+						PtrToUlong(pthis)
+					);
+					pthis->mHwnd = hwnd;
+				}
+				else
+				{
+					pthis = reinterpret_cast<ChildWnd*>(static_cast<LONG_PTR>(
+						::GetWindowLongPtrW(
+							hwnd,
+							GWLP_USERDATA
+						)));
+				}
+
+				if (pthis)
+				{
+					return pthis->MsgHandle(msg, wpm, lpm);
+				}
+				else
+				{
+					return ::DefWindowProc(hwnd, msg, wpm, lpm);
+				}
 			};
 
 

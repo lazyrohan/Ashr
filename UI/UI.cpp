@@ -154,13 +154,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_NCCALCSIZE:
 	{
 		//MessageBoxW(NULL,L"Test",L"Test",NULL);
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		//return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	break;
 	case WM_NCACTIVATE:
 	{
 		//MessageBoxW(NULL,L"Test",L"Test",NULL);
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		//return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	break;
 
