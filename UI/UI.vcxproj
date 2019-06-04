@@ -153,7 +153,9 @@
   <ItemGroup>
     <ClInclude Include="CAshrWnd.h" />
     <ClInclude Include="CMainWnd.h" />
+    <ClInclude Include="CRenderCore.h" />
     <ClInclude Include="CRootWnd.h" />
+    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -162,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="CAshrWnd.cpp" />
     <ClCompile Include="CMainWnd.cpp" />
+    <ClCompile Include="CRenderCore.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
