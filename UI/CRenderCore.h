@@ -5,6 +5,7 @@ Engine for render 2D and 3D images
 
 #pragma once
 #define WIN32_LEAN_AND_MEAN
+#include <winapifamily.h>
 #include <d3d12.h>
 //DXGI interface
 #include <dxgi1_6.h>
@@ -23,6 +24,11 @@ Engine for render 2D and 3D images
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
+
+#pragma comment(lib,"d3d12")
+#pragma comment(lib,"dxgi")
+#pragma comment(lib,"d3dcompiler")
+
 
 namespace Ashr
 {
@@ -59,8 +65,22 @@ namespace Ashr
 			void LoadResource();
 			void CreatePipeline(HWND hWnd);
 			void CreateAssets();
+			//Generate programe texture
+			vector<UINT8> ProgTextureGen(UINT TextureWidth=256, UINT TexturePixelSize=4, UINT TextureHeight=256);
+			//Frame process
+			void MoveToNextFrm();
+			void WaitForGPU();
+			void PopulateCmdList();
 
 		private:
+			//
+			struct Vex
+			{
+				XMFLOAT3 pos;
+				XMFLOAT2 uv;
+			};
+
+			//Pipeline object
 			//Set frame buffer count
 			static const UINT mFrmCount = 3;
 			//Factory interface
@@ -71,8 +91,6 @@ namespace Ashr
 			ComPtr<ID3D12CommandQueue> mpCmdQueue;
 			//Swapchain
 			ComPtr<IDXGISwapChain4> mpSwapChain;
-			//Current frame index
-			UINT mFrmIdx;
 			//Descriptor heap 
 			ComPtr<ID3D12DescriptorHeap> mpDescheap;
 			//Descriptor heap size
@@ -81,11 +99,22 @@ namespace Ashr
 			ComPtr<ID3D12Resource> mpRTVList[mFrmCount];
 			//Root signature
 			ComPtr<ID3D12RootSignature> mpRootSignature;
+			//Pipeline state
+			ComPtr<ID3D12PipelineState> mpPipelinestate;
 			//Command allocator to store command list bundle
-			ComPtr<ID3D12CommandAllocator> mpCmdAllocator;
+			ComPtr<ID3D12CommandAllocator> mpCmdAllocator[mFrmCount];
 			//Command list
-			ComPtr<ID3D12CommandList> mpCmdList;
+			ComPtr<ID3D12GraphicsCommandList4> mpCmdList;
 
+			//App resource
+
+			//Sychroniziation objects
+			//Current frame index
+			UINT mFrmIdx;
+			//Fence
+			HANDLE mhFenceEvent;
+			ComPtr<ID3D12Fence1> mpFence;
+			UINT64 mpFenceVals[mFrmCount];
 
 		};
 	}
