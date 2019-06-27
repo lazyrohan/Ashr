@@ -19,7 +19,10 @@ Engine for render 2D and 3D images
 #include <string>
 #include <sstream>
 #include <iomanip>
+//exception
 #include <stdexcept>
+//time
+#include <chrono>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -71,6 +74,8 @@ namespace Ashr
 			void MoveToNextFrm();
 			void WaitForGPU();
 			void PopulateCmdList();
+			//Check support of variable frame rate
+			bool CheckSupportTearing();
 
 		private:
 			//
@@ -91,17 +96,17 @@ namespace Ashr
 			ComPtr<ID3D12CommandQueue> mpCmdQueue;
 			//Swapchain
 			ComPtr<IDXGISwapChain4> mpSwapChain;
-			//Descriptor heap 
+			//Descriptor heap to store render target view back buffer
 			ComPtr<ID3D12DescriptorHeap> mpDescheap;
-			//Descriptor heap size
+			//Descriptor heap size is vendor specific
 			UINT mDescheapSize;
-			//Render target view list accoring setted frame buffer count
+			//Render target view back buffer list according setted frame buffer count
 			ComPtr<ID3D12Resource> mpRTVList[mFrmCount];
 			//Root signature
 			ComPtr<ID3D12RootSignature> mpRootSignature;
 			//Pipeline state
 			ComPtr<ID3D12PipelineState> mpPipelinestate;
-			//Command allocator to store command list bundle
+			//Command allocator to store command list bundle for each frame
 			ComPtr<ID3D12CommandAllocator> mpCmdAllocator[mFrmCount];
 			//Command list
 			ComPtr<ID3D12GraphicsCommandList4> mpCmdList;

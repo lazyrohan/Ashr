@@ -4,7 +4,7 @@ Ashr::Render::CRenderCore::CRenderCore() :
 	mFrmIdx(0),
 	mDescheapSize(0),
 	mhFenceEvent(NULL),
-	mpFenceVals{0}
+	mpFenceVals{ 0 }
 {
 }
 
@@ -89,85 +89,103 @@ void Ashr::Render::CRenderCore::CreatePipeline(HWND hWnd)
 	ThrowError(CreateDXGIFactory2(dxgifactoryflags, IID_PPV_ARGS(&mpFactory)));
 
 	//Create device
-	ComPtr<IDXGIAdapter1> adapter;
-	for (UINT adapterNum = 0; DXGI_ERROR_NOT_FOUND != mpFactory->EnumAdapters1(adapterNum, &adapter); ++adapterNum)
 	{
-		DXGI_ADAPTER_DESC1 adapterDesc;
-		adapter->GetDesc1(&adapterDesc);
-		if (adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)
+		ComPtr<IDXGIAdapter1> adapter;
+		for (UINT adapterNum = 0; DXGI_ERROR_NOT_FOUND != mpFactory->EnumAdapters1(adapterNum, &adapter); ++adapterNum)
 		{
-			continue;
+			DXGI_ADAPTER_DESC1 adapterDesc;
+			adapter->GetDesc1(&adapterDesc);
+			if (adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)
+			{
+				continue;
+			}
+			if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_12_1, __uuidof(ID3D12Device5), nullptr)))
+			{
+				break;
+			}
 		}
-		if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_12_1, __uuidof(ID3D12Device5), nullptr)))
-		{
-			break;
-		}
+
+		ThrowError(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&mpDevice)));
 	}
 
-	ThrowError(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&mpDevice)));
-
 	//Create command queue
-	D3D12_COMMAND_QUEUE_DESC cmdDesc = {};
-	cmdDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	cmdDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	{
+		D3D12_COMMAND_QUEUE_DESC cmdDesc = {};
+		//Excute with draw,compute,copy
+		cmdDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+		cmdDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
+		cmdDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+		//to identify adapter from multi-adapters
+		cmdDesc.NodeMask = 0;
 
-
-	ThrowError(mpDevice->CreateCommandQueue(&cmdDesc, IID_PPV_ARGS(&mpCmdQueue)));
+		ThrowError(mpDevice->CreateCommandQueue(&cmdDesc, IID_PPV_ARGS(&mpCmdQueue)));
+	}
 
 	//Create swapchain
-	DXGI_SWAP_CHAIN_DESC1 mpSwapchainDesc = {};
-	mpSwapchainDesc.BufferCount = mFrmCount;
-	mpSwapchainDesc.Width = 1080;
-	mpSwapchainDesc.Height = 800;
-	mpSwapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	mpSwapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	mpSwapchainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	mpSwapchainDesc.SampleDesc.Count = 1;
-	mpSwapchainDesc.SampleDesc.Quality = 4;
-	mpSwapchainDesc.Scaling = DXGI_SCALING_NONE;
+	{
+		RECT crc;
+		GetClientRect(hWnd, &crc);
 
-	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc = {};
-	fullscreenDesc.Windowed = false;
-	fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
-	fullscreenDesc.Scaling = DXGI_MODE_SCALING_CENTERED;
-	fullscreenDesc.RefreshRate.Numerator = 60;
-	fullscreenDesc.RefreshRate.Denominator = 1;
+		DXGI_SWAP_CHAIN_DESC1 mpSwapchainDesc = {};
+		
+		mpSwapchainDesc.Width = crc.right - crc.left;
+		mpSwapchainDesc.Height = crc.bottom - crc.top;
+		mpSwapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		mpSwapchainDesc.Stereo = false;
+		mpSwapchainDesc.SampleDesc.Count = 1;
+		mpSwapchainDesc.SampleDesc.Quality = 0;
+		mpSwapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		mpSwapchainDesc.BufferCount = mFrmCount;
+		mpSwapchainDesc.Scaling = DXGI_SCALING_NONE;
+		mpSwapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+		mpSwapchainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+		//Allow variable frame rate(v-sync off)
+		mpSwapchainDesc.Flags = CheckSupportTearing() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+		
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc = {};
+		fullscreenDesc.Windowed = false;
+		fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+		fullscreenDesc.Scaling = DXGI_MODE_SCALING_CENTERED;
+		fullscreenDesc.RefreshRate.Numerator = 60;
+		fullscreenDesc.RefreshRate.Denominator = 1;
 
-
-	ComPtr<IDXGISwapChain1> pSwapchain;
+		ComPtr<IDXGISwapChain1> pSwapchain;
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #endif
-	ThrowError(mpFactory->CreateSwapChainForHwnd(mpCmdQueue.Get(), hWnd, &mpSwapchainDesc, &fullscreenDesc, nullptr, &pSwapchain));
+		ThrowError(mpFactory->CreateSwapChainForHwnd(mpCmdQueue.Get(), hWnd, &mpSwapchainDesc, &fullscreenDesc, nullptr, &pSwapchain));
+		//Shutdown fullscreen support
+		//ThrowError(mpFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
 
-	//Shutdown fullscreen support
-	//ThrowError(mpFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
+		//Set to high level swapchain interface
+		ThrowError(pSwapchain.As(&mpSwapChain));
+	}
 
-	//Set to high level swapchain interface
-	ThrowError(pSwapchain.As(&mpSwapChain));
-
-	//Get current frame index
-	mFrmIdx = mpSwapChain->GetCurrentBackBufferIndex();
-
-	//Create render target descriptor heap
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeepDesc = {};
-	rtvHeepDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	rtvHeepDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvHeepDesc.NumDescriptors = mFrmCount;
-	//multiple adapter identification
-	rtvHeepDesc.NodeMask = 0;
-
-	ThrowError(mpDevice->CreateDescriptorHeap(&rtvHeepDesc, IID_PPV_ARGS(&mpDescheap)));
-	mpDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
-	//Create frame resource
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = mpDescheap->GetCPUDescriptorHandleForHeapStart();
-
-	//Create render target view for each frame
-	for (UINT i = 0; i < mFrmCount; ++i)
+	//Create render target view
 	{
-		ThrowError(mpSwapChain->GetBuffer(i, IID_PPV_ARGS(&mpRTVList[i])));
-		mpDevice->CreateRenderTargetView(mpRTVList[i].Get(), nullptr, rtvHandle);
-		rtvHandle.ptr += UINT64(mDescheapSize);
+		//Get current frame index
+		mFrmIdx = mpSwapChain->GetCurrentBackBufferIndex();
+
+		//Create render target descriptor heap
+		D3D12_DESCRIPTOR_HEAP_DESC rtvHeepDesc = {};
+		rtvHeepDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		rtvHeepDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvHeepDesc.NumDescriptors = mFrmCount;
+		//multiple adapter identification
+		rtvHeepDesc.NodeMask = 0;
+
+		ThrowError(mpDevice->CreateDescriptorHeap(&rtvHeepDesc, IID_PPV_ARGS(&mpDescheap)));
+		mpDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+		//Create frame resource
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = mpDescheap->GetCPUDescriptorHandleForHeapStart();
+
+		//Create render target view for each frame
+		for (UINT i = 0; i < mFrmCount; ++i)
+		{
+			ThrowError(mpSwapChain->GetBuffer(i, IID_PPV_ARGS(&mpRTVList[i])));
+			mpDevice->CreateRenderTargetView(mpRTVList[i].Get(), nullptr, rtvHandle);
+			rtvHandle.ptr += UINT64(mDescheapSize);
+		}
 	}
 
 	//Create command allocator
@@ -265,7 +283,7 @@ void Ashr::Render::CRenderCore::CreateAssets()
 		ThrowError(D3DCompileFromFile(shaderFileName.c_str(), nullptr, nullptr, "VSMain", "VS_5_0", compileFlag, 0, &vertexShader, &pErrorMsg));
 		ThrowError(D3DCompileFromFile(shaderFileName.c_str(), nullptr, nullptr, "PSMain", "PS_5_0", compileFlag, 0, &pixelShader, &pErrorMsg));
 
-		//Define vertex input layout
+		//Define vertex shaer input layout
 		D3D12_INPUT_ELEMENT_DESC inputEleDesc[] =
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
@@ -287,10 +305,15 @@ void Ashr::Render::CRenderCore::CreateAssets()
 		vcode.pShaderBytecode = vertexShader.Get();
 		vcode.BytecodeLength = sizeof(vertexShader);
 		*/
+		//Vertex shader
 		psoDesc.VS = CD3DX12_SHADER_BYTECODE(vertexShader.Get());
+		//Pixel shader
 		psoDesc.PS = CD3DX12_SHADER_BYTECODE(pixelShader.Get());
+		//Domain shader
 		psoDesc.DS = CD3DX12_SHADER_BYTECODE();
+		//Hull shader
 		psoDesc.HS = CD3DX12_SHADER_BYTECODE();
+		//Geometry shader
 		psoDesc.GS = CD3DX12_SHADER_BYTECODE();
 		psoDesc.StreamOutput = D3D12_STREAM_OUTPUT_DESC();
 		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
@@ -443,10 +466,10 @@ void Ashr::Render::CRenderCore::CreateAssets()
 
 	// Close command list and initial GUP setup
 	{
-	ThrowError(mpCmdList->Close());
+		ThrowError(mpCmdList->Close());
 
-	ID3D12CommandList* pCmdlists[] = { mpCmdList.Get() };
-	mpCmdQueue->ExecuteCommandLists(_countof(pCmdlists), pCmdlists);
+		ID3D12CommandList* pCmdlists[] = { mpCmdList.Get() };
+		mpCmdQueue->ExecuteCommandLists(_countof(pCmdlists), pCmdlists);
 	}
 
 	// Create synchronization objects and wait until assets have been uploaded to the GPU.
@@ -511,7 +534,7 @@ void Ashr::Render::CRenderCore::MoveToNextFrm()
 	ThrowError(mpCmdQueue->Signal(mpFence.Get(), currentFenceValue));
 
 	// Update the frame index.
-	mFrmIdx= mpSwapChain->GetCurrentBackBufferIndex();
+	mFrmIdx = mpSwapChain->GetCurrentBackBufferIndex();
 
 	// If the next frame is not ready to be rendered yet, wait until it is ready.
 	if (mpFence->GetCompletedValue() < mpFenceVals[mFrmIdx])
@@ -552,7 +575,9 @@ void Ashr::Render::CRenderCore::PopulateCmdList()
 	// Set necessary state.
 	mpCmdList->SetGraphicsRootSignature(mpRootSignature.Get());
 	D3D12_VIEWPORT mViewport;
-	D3D12_RECT mRect;
+	mViewport.Height = 1080;
+	mViewport.Width = 900;
+	D3D12_RECT mRect = D3D12_RECT();
 	mpCmdList->RSSetViewports(1, &mViewport);
 	mpCmdList->RSSetScissorRects(1, &mRect);
 
@@ -574,3 +599,17 @@ void Ashr::Render::CRenderCore::PopulateCmdList()
 
 	ThrowError(mpCmdList->Close());
 }
+
+bool Ashr::Render::CRenderCore::CheckSupportTearing()
+{
+	bool bsupportTearing = false;
+	ComPtr<IDXGIFactory7> pFactory;
+	if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(&pFactory))))
+	{
+		if(SUCCEEDED(pFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,&bsupportTearing,sizeof(bsupportTearing))))
+		return true;
+	}
+	return false;
+}
+
+
