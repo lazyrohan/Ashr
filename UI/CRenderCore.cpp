@@ -188,7 +188,7 @@ void Ashr::Render::CRenderCore::CreatePipeline(HWND hWnd)
 		}
 	}
 
-	//Create command allocator
+	//Create command allocator for command list back buffer
 	ThrowError(mpDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&mpCmdAllocator[mFrmIdx])));
 
 }
@@ -472,7 +472,7 @@ void Ashr::Render::CRenderCore::CreateAssets()
 		mpCmdQueue->ExecuteCommandLists(_countof(pCmdlists), pCmdlists);
 	}
 
-	// Create synchronization objects and wait until assets have been uploaded to the GPU.
+	// Create synchronization objects fence and wait until assets have been uploaded to the GPU.
 	{
 
 		ThrowError(mpDevice->CreateFence(mpFenceVals[mFrmIdx], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&mpFence)));
