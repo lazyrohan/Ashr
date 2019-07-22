@@ -10,9 +10,8 @@ using namespace std;
 int main()
 {
 	CWorldPrim neww;
-	neww.Initialize(20,20,100);
+	neww.Initialize(10,10,100);
 	neww.Run();
-	
 
 }
 

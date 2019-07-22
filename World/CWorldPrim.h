@@ -19,9 +19,9 @@ class CWorldPrim :
 public:
 	CWorldPrim();
 	~CWorldPrim();
-   void Initialize(unsigned worldSizeW=100,unsigned worldSizeH=100,unsigned characterNum=10);
-   void Run();
-   void Stop();
+   virtual void Initialize(unsigned worldSizeW=100,unsigned worldSizeH=100,unsigned characterNum=10);
+   virtual void Run();
+   virtual void Stop();
 
 private:
 	void WorldGen();
@@ -47,12 +47,22 @@ public:
 			oreAmount = 0.0f;
 			foodAmont = 0.0f;
 		};
+
+		~CellObject()
+		{
+			characterIDs.clear();
+			CreatureIDs.clear();
+		};
+
 		string DataStr()
 		{
 			stringstream ss;
-			ss << "CN: " << characterAmount<<" "
-				<< "FN: " << foodAmont<<" "
-				<< "ON: " << oreAmount<<endl;
+			ss << "I.D:";
+			for (auto itr : characterIDs)
+				ss << itr << " ";
+			ss << "C.N:" << characterAmount<<" "
+				<< "F.N:" << foodAmont<<" "
+				<< "O.N:" << oreAmount<<" / ";
 			return ss.str();
 		};
 	};

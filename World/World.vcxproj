@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CCreature.cpp" />
     <ClCompile Include="CRootObject.cpp" />
     <ClCompile Include="CWorldPrim.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CCreature.h" />
     <ClInclude Include="CRootObject.h" />
     <ClInclude Include="CWorldPrim.h" />
   </ItemGroup>

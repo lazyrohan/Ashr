@@ -24,12 +24,18 @@
     <ClCompile Include="CWorldPrim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CCreature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRootObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CWorldPrim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCreature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

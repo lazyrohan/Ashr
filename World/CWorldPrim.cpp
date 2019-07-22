@@ -60,7 +60,7 @@ void CWorldPrim::CharacterGen()
 void CWorldPrim::ResourceGen()
 {
 	mt19937_64 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
-	normal_distribution<double> dis(0.0f, 1.0f);
+	normal_distribution<double> dis(0.0f, 2.0f);
 	for (unsigned i = 0; i < WorldCellNum; i++)
 	{
 		WorldObjs[i].foodAmont =abs(dis(gen));
@@ -74,7 +74,7 @@ void CWorldPrim::CreaterGen()
 void CWorldPrim::OreGen()
 {
 	mt19937_64 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
-	normal_distribution<double> dis(0.0f, 1.0f);
+	normal_distribution<double> dis(0.0f, 3.0f);
 	for (unsigned i = 0; i < WorldCellNum; i++)
 	{
 		WorldObjs[i].oreAmount=abs(dis(gen));
