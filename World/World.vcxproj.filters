@@ -24,7 +24,22 @@
     <ClCompile Include="CWorldPrim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CCreature.cpp">
+    <ClCompile Include="CWorldGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldCreature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldPlant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldAnimal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,8 +50,29 @@
     <ClInclude Include="CWorldPrim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CCreature.h">
+    <ClInclude Include="CWorldGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CWorldCell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldCreature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldPlant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldAnimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ClassDesign.txt" />
   </ItemGroup>
 </Project>

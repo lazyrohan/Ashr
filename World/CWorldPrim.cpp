@@ -38,6 +38,8 @@ void CWorldPrim::Stop()
 
 void CWorldPrim::WorldGen()
 {
+	//WorldGrid
+	//GridCell
 	CharacterGen();
 	ResourceGen();
 	OreGen();

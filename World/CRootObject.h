@@ -18,7 +18,7 @@ public:
 	virtual void Stop() = 0;
 
 //Virables
-private:
+public:
 	unsigned ID;
 
 };

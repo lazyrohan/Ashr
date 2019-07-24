@@ -4,7 +4,6 @@
 #include <iostream>
 #include "CWorldPrim.h"
 
-
 using namespace std;
 
 int main()

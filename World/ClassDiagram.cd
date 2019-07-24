@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CRootObject" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAACAAAAEIAAAAAAAAAI=</HashCode>
+      <FileName>CRootObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldGrid" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQQAAA=</HashCode>
+      <FileName>CWorldGrid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldPrim" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAABAAAAAIAQAEAAAAACCQAAAAAAEKYAAAAAAQAAM=</HashCode>
+      <FileName>CWorldPrim.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldCreature" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAABEoAAAAQgCAAAAAAAAAAEAAgAAAIAAAAEIAA=</HashCode>
+      <FileName>CWorldCreature.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldCharacter" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CWorldCharacter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldCell" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CWorldCell.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldAnimal" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CWorldAnimal.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWorldPlant" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CWorldPlant.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

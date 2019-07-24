@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -151,15 +151,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CCreature.cpp" />
+    <ClCompile Include="CWorldAnimal.cpp" />
+    <ClCompile Include="CWorldCharacter.cpp" />
+    <ClCompile Include="CWorldCreature.cpp" />
+    <ClCompile Include="CWorldPlant.cpp" />
     <ClCompile Include="CRootObject.cpp" />
+    <ClCompile Include="CWorldCell.cpp" />
+    <ClCompile Include="CWorldGrid.cpp" />
     <ClCompile Include="CWorldPrim.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CCreature.h" />
+    <ClInclude Include="CWorldAnimal.h" />
+    <ClInclude Include="CWorldCharacter.h" />
+    <ClInclude Include="CWorldCreature.h" />
+    <ClInclude Include="CWorldPlant.h" />
     <ClInclude Include="CRootObject.h" />
+    <ClInclude Include="CWorldCell.h" />
+    <ClInclude Include="CWorldGrid.h" />
     <ClInclude Include="CWorldPrim.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ClassDesign.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
