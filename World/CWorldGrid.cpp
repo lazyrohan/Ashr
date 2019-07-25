@@ -1,9 +1,9 @@
 #include "CWorldGrid.h"
 
-CWorldGrid::CWorldGrid()
+AshrWorld::CWorldGrid::CWorldGrid()
 {
 }
 
-CWorldGrid::~CWorldGrid()
+AshrWorld::CWorldGrid::~CWorldGrid()
 {
 }

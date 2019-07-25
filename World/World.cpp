@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	CWorldPrim neww;
+	AshrWorld::CWorldPrim neww;
 	neww.Initialize(10,10,100);
 	neww.Run();
 

@@ -1,6 +1,6 @@
 #include "CWorldPrim.h"
 
-CWorldPrim::CWorldPrim():
+AshrWorld::CWorldPrim::CWorldPrim():
 	WorldSizeW(0),
 	WorldSizeH(0),
 	WorldCellNum(0),
@@ -8,11 +8,11 @@ CWorldPrim::CWorldPrim():
 {
 }
 
-CWorldPrim::~CWorldPrim()
+AshrWorld::CWorldPrim::~CWorldPrim()
 {
 }
 
-void CWorldPrim::Initialize(unsigned worldSizeW, unsigned worldSizeH, unsigned characterNum)
+void AshrWorld::CWorldPrim::Initialize(unsigned worldSizeW, unsigned worldSizeH, unsigned characterNum)
 {
 	WorldSizeW = worldSizeW;
 	WorldSizeH = worldSizeH;
@@ -22,7 +22,7 @@ void CWorldPrim::Initialize(unsigned worldSizeW, unsigned worldSizeH, unsigned c
 	WorldGen();
 }
 
-void CWorldPrim::Run()
+void AshrWorld::CWorldPrim::Run()
 {
 	for (unsigned i=0;i<WorldCellNum;i++)
 	{
@@ -32,11 +32,11 @@ void CWorldPrim::Run()
 	}
 }
 
-void CWorldPrim::Stop()
+void AshrWorld::CWorldPrim::Stop()
 {
 }
 
-void CWorldPrim::WorldGen()
+void AshrWorld::CWorldPrim::WorldGen()
 {
 	//WorldGrid
 	//GridCell
@@ -45,7 +45,7 @@ void CWorldPrim::WorldGen()
 	OreGen();
 }
 
-void CWorldPrim::CharacterGen()
+void AshrWorld::CWorldPrim::CharacterGen()
 {
 	//Random place character
 	mt19937_64 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
@@ -59,7 +59,7 @@ void CWorldPrim::CharacterGen()
 	
 }
 
-void CWorldPrim::ResourceGen()
+void AshrWorld::CWorldPrim::ResourceGen()
 {
 	mt19937_64 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
 	normal_distribution<double> dis(0.0f, 2.0f);
@@ -69,11 +69,11 @@ void CWorldPrim::ResourceGen()
 	}
 }
 
-void CWorldPrim::CreaterGen()
+void AshrWorld::CWorldPrim::CreaterGen()
 {
 }
 
-void CWorldPrim::OreGen()
+void AshrWorld::CWorldPrim::OreGen()
 {
 	mt19937_64 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
 	normal_distribution<double> dis(0.0f, 3.0f);

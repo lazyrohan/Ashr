@@ -170,12 +170,10 @@
     <ClInclude Include="CWorldCell.h" />
     <ClInclude Include="CWorldGrid.h" />
     <ClInclude Include="CWorldPrim.h" />
+    <ClInclude Include="GlobalUnity.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ClassDesign.txt" />
+    <Text Include="refer\ClassDesign.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

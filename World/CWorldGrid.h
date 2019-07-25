@@ -1,14 +1,20 @@
 #pragma once
+
 #include "CWorldCell.h"
-class CWorldGrid :
-	public CWorldCell
+
+namespace AshrWorld
 {
-public:
-	CWorldGrid();
-	~CWorldGrid();
+	class CWorldGrid :
+		public CWorldCell
+	{
+	public:
+		CWorldGrid();
+		~CWorldGrid();
 
-private:
-	unsigned GridCell;
+	private:
+		unsigned GridCell;
 
-};
+	};
+}
+
 

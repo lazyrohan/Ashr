@@ -1,7 +1,15 @@
 #pragma once
+
+
 #include "CWorldCreature.h"
-class CWorldCharacter :
-	public CWorldCreature
+
+
+namespace AshrWorld
 {
-};
+	class CWorldCharacter :
+		public CWorldCreature
+	{
+	};
+}
+
 

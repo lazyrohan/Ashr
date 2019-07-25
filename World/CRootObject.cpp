@@ -1,10 +1,10 @@
 #include "CRootObject.h"
 
-CRootObject::CRootObject():
+AshrWorld::CRootObject::CRootObject():
 	ID(0)
 {
 }
 
-CRootObject::~CRootObject()
+AshrWorld::CRootObject::~CRootObject()
 {
 }
