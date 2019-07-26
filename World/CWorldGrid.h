@@ -13,7 +13,7 @@ namespace AshrWorld
 
 	private:
 		unsigned GridCell;
-
+		CWorldCell cellnum;
 	};
 }
 

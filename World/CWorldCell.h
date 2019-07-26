@@ -1,13 +1,16 @@
 /*
-Cell object to define basic world physical unit
+Cell object to define basic world physical unit, can't be split anymore
 */
 #pragma once
 
+#include <vector>
 
 #include "CRootObject.h"
+using namespace std;
 
 namespace AshrWorld
 {
+
 	class CWorldCell :
 		public CRootObject
 	{
@@ -17,49 +20,20 @@ namespace AshrWorld
 
 		//Perperties
 	public:
-		//Size in pxiels
-		double width;
-		double height;
+		//All in pxiels
+		const double width=12.0f;
+		const double height=12.0f;
 		//Center Position
+		Point2 centerPos;
 
-		//resource
-		struct CellObject
-		{
-			vector<unsigned> characterIDs;
-			unsigned characterAmount;
-			vector<unsigned> CreatureIDs;
-			unsigned creatureAmount;
-			double oreAmount;
-			double foodAmont;
-
-			CellObject()
-			{
-				characterAmount = 0;
-				creatureAmount = 0;
-				oreAmount = 0.0f;
-				foodAmont = 0.0f;
-			};
-
-			~CellObject()
-			{
-				characterIDs.clear();
-				CreatureIDs.clear();
-			};
-
-			string DataStr()
-			{
-				stringstream ss;
-				ss << "I.D:";
-				for (auto itr : characterIDs)
-					ss << itr << " ";
-				ss << "C.N:" << characterAmount << " "
-					<< "F.N:" << foodAmont << " "
-					<< "O.N:" << oreAmount << " / ";
-				return ss.str();
-			};
-		};
+		//Resource list
+		double oreAmount;
+		double foodAmount;
+		virtual void Run();
+		virtual void Stop();
 
 	};
+
 }
 
 
