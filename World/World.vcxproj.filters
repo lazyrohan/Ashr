@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CRootObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,6 +35,7 @@
     <ClCompile Include="CWorldAnimal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRootObject.h">
@@ -64,7 +62,9 @@
     <ClInclude Include="CWorldPrim.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalUnity.h" />
+    <ClInclude Include="GlobalUnity.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="refer\ClassDesign.txt" />

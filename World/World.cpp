@@ -2,24 +2,26 @@
 //
 
 #include <iostream>
-#include "CWorldPrim.h"
+#include<filesystem>
+
+//#include "CWorldPrim.h"
 
 using namespace std;
+using namespace std::filesystem;
 
 int main()
 {
-	AshrWorld::CWorldPrim neww;
-	neww.Initialize(10,10,100);
-	neww.Run();
+	//AshrWorld::CWorldPrim neww;
+	//neww.Initialize(10,10,100);
+	//neww.Run();
 
-	cout << endl;
-	for(auto i=0;i<3;i++)
+	path p=L"D:\\00\\";
+	directory_entry dir(p);
+	recursive_directory_iterator files(p);
+	for (auto itr : files)
 	{
-		for (int j=0;j<3;j++)
-			cout << "|---|---|"<<endl;
-		}
-		cout << endl;
+		wcout << itr.path().generic_wstring()<<endl;
 	}
-
+	cout << p.string();
 }
 
